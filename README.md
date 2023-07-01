@@ -1,8 +1,15 @@
 # vbass
 
 ## Hardware
+We are using kicad for the pcb design. And the pcb design itself lives in the subfolder pcb. There you will find the *.kicad_sch for schematics and *.kicad_pcb for the board layout itself.
+
+The following hardware parts are used:
 - ESP32-WROOM-32
-- DAC for audio
+  - DAC for audio
+  - ADCs for potis
+  - DINs for buttons and touch inputs
+  - DOUTs for LEDs
+  - ... for rotator input
 - ...
 
 
