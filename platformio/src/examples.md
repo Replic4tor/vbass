@@ -32,7 +32,7 @@ main:
 #include <Arduino.h>
 #include <DacESP32.h>
 
-DacESP32 dac1(GPIO_NUM_25);
+DacESP32 dac(GPIO_NUM_25);
 
 const int PLAY_NOTE_G4 = 392;   //G - Octave 4
 const int PLAY_NOTE_C5 = 523;   //C - Octave 5
@@ -55,21 +55,42 @@ void play_note(DacESP32& dac, int freq, int length_ms) {
 }
 
 void setup() {
-  dac1.disable();
+  dac.disable();
   delay(1000);
 }
 
 void loop() {
-  play_note(dac1, PLAY_NOTE_E5, EIGTH_NOTE_LENGTH);
-  play_note(dac1, PLAY_NOTE_E5, EIGTH_NOTE_LENGTH);
+  play_note(dac, PLAY_NOTE_E5, EIGTH_NOTE_LENGTH);
+  play_note(dac, PLAY_NOTE_E5, EIGTH_NOTE_LENGTH);
   delay(EIGTH_NOTE_LENGTH);
-  play_note(dac1, PLAY_NOTE_E5, EIGTH_NOTE_LENGTH);
+  play_note(dac, PLAY_NOTE_E5, EIGTH_NOTE_LENGTH);
   delay(EIGTH_NOTE_LENGTH);
-  play_note(dac1, PLAY_NOTE_C5, EIGTH_NOTE_LENGTH);
-  play_note(dac1, PLAY_NOTE_E5, EIGTH_NOTE_LENGTH * 2);
-  play_note(dac1, PLAY_NOTE_G5, EIGTH_NOTE_LENGTH * 2);
+  play_note(dac, PLAY_NOTE_C5, EIGTH_NOTE_LENGTH);
+  play_note(dac, PLAY_NOTE_E5, EIGTH_NOTE_LENGTH * 2);
+  play_note(dac, PLAY_NOTE_G5, EIGTH_NOTE_LENGTH * 2);
   delay(EIGTH_NOTE_LENGTH * 2);
-  play_note(dac1, PLAY_NOTE_C5, EIGTH_NOTE_LENGTH * 2);
+  play_note(dac, PLAY_NOTE_C5, EIGTH_NOTE_LENGTH * 2);
   delay(EIGTH_NOTE_LENGTH * 2);
 }
+```
+
+## Analog Inputs
+
+main
+```cpp
+#include <Arduino.h>
+
+const int AIN_PIN = 34;
+int analog_value = 0;
+
+void setup() {
+  Serial.begin(9600);
+  delay(1000);
+}
+
+void loop() {
+  analog_value = analogRead(AIN_PIN);
+  Serial.println(analog_value);
+}
+
 ```
