@@ -3,7 +3,6 @@
 #include <musical_notes.h>
 
 FrequencyReader::FrequencyReader(gpio_num_t gpio_num) : gpio_num_{gpio_num} {
-  // TODO
 }
 
 uint32_t FrequencyReader::GetFrequency() {

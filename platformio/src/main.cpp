@@ -4,20 +4,35 @@
 #include "LedManager/led_manager.h"
 #include "PlaybackSpeedReader/playback_speed_reader.h"
 #include "QuizManager/quiz_manager.h"
-#include "SpeakerManager/speaker_manager.h"
 #include "Soundbits/soundbits.h"
+#include "SpeakerManager/speaker_manager.h"
 
-enum GameState {
-  OFF,
-  SETUP,
-  EVALUATE_QUIZ,
-  PLAYBACK_ROOT,
-  PLAYBACK_MIDDLE,
-  PLAYBACK_HIGH,
-  VICTORY,
-  SKIP,
-  EASTER_EGG
-};
+enum GameState { OFF, SETUP, EVALUATE_QUIZ, PLAYBACK_ROOT, PLAYBACK_MIDDLE, PLAYBACK_HIGH, VICTORY, SKIP, EASTER_EGG };
+
+namespace {
+String ToString(GameState game_state) {
+  switch (game_state) {
+    case OFF:
+      return "OFF";
+    case SETUP:
+      return "SETUP";
+    case EVALUATE_QUIZ:
+      return "EVALUATE_QUIZ";
+    case PLAYBACK_ROOT:
+      return "PLAYBACK_ROOT";
+    case PLAYBACK_MIDDLE:
+      return "PLAYBACK_MIDDLE";
+    case PLAYBACK_HIGH:
+      return "PLAYBACK_HIGH";
+    case VICTORY:
+      return "VICTORY";
+    case SKIP:
+      return "SKIP";
+    case EASTER_EGG:
+      return "EASTER_EGG";
+  }
+}
+}
 
 // THE GLOBAL STUFF
 GameState game_state = GameState::OFF;
@@ -25,7 +40,7 @@ bool button_event = false;
 QuizManager quiz_manager{};
 FrequencyReader middle_poti{GPIO_NUM_32};
 FrequencyReader high_poti{GPIO_NUM_33};
-led::LedManager status_led{GPIO_NUM_0};    // TODO GPIO num
+led::LedManager status_led{GPIO_NUM_0};// TODO GPIO num
 SpeakerManager speaker{GPIO_NUM_25};
 PlaybackSpeedReader speed_poti{GPIO_NUM_0};// TODO GPIO num
 float octave_offset = 2;                   // TODO Make adjustable with rotary switch, e.g. 0.5, 2
@@ -61,7 +76,6 @@ void IRAM_ATTR IsrOnPlayButton() {
     button_event = true;
     last_interrupt_time = millis();
   }
-
 }
 
 void SwitchStateTo(GameState next_game_state) {
@@ -78,10 +92,8 @@ void SwitchStateTo(GameState next_game_state) {
 void setup() {
   Serial.begin(115200);
   // TODO Hardware setup, e.g. GPIO direction
-  attachInterrupt(GPIO_NUM_35, IsrOnSkipButton,
-                  RISING);// TODO GPIO num and mode
-  attachInterrupt(GPIO_NUM_34, IsrOnPlayButton,
-                  RISING);// TODO GPIO num and mode
+  attachInterrupt(GPIO_NUM_35, IsrOnSkipButton, RISING);
+  attachInterrupt(GPIO_NUM_34, IsrOnPlayButton, RISING);
   game_state = GameState::OFF;
 }
 
@@ -100,7 +112,7 @@ void loop() {
       SwitchStateTo(GameState::EVALUATE_QUIZ);
       break;
     case GameState::EVALUATE_QUIZ: {
-      delay(500); // TODO remove?
+      delay(500);// TODO remove?
       auto middle_frequency = middle_poti.GetFrequency();
       auto high_frequency = high_poti.GetFrequency();
 
@@ -153,5 +165,5 @@ void loop() {
       break;
   }
 
-  Serial.println(game_state);
+  Serial.println(ToString(game_state));
 }
