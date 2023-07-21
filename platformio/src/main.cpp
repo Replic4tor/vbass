@@ -31,22 +31,37 @@ PlaybackSpeedReader speed_poti{GPIO_NUM_0};// TODO GPIO num
 float octave_offset = 2;                   // TODO Make adjustable with rotary switch, e.g. 0.5, 2
 
 void IRAM_ATTR IsrOnSkipButton() {
-  // TODO debouncing
-  Serial.println("IsrOnSkipButton");   // TODO rm debug
-  game_state = GameState::SKIP;
-  button_event = true;
+  Serial.println("IsrOnSkipButton");
+
+  static unsigned long last_interrupt_time = 0;
+
+  if (millis() - last_interrupt_time > 200) {
+    Serial.println("Skip!");
+    game_state = GameState::SKIP;
+    button_event = true;
+    last_interrupt_time = millis();
+  }
 }
 
 void IRAM_ATTR IsrOnPlayButton() {
-  // TODO debouncing
-  Serial.println("IsrOnPlayButton");  // TODO rm debug
-  // Turns game on or off, depending on its previous state
-  if (game_state == GameState::OFF) {
-    game_state = GameState::SETUP;
-  } else {
-    game_state = GameState::OFF;
+  Serial.println("IsrOnPlayButton");
+
+  static unsigned long last_interrupt_time = 0;
+
+  if (millis() - last_interrupt_time > 200) {
+    // Turns game on or off, depending on its previous state
+    if (game_state == GameState::OFF) {
+      Serial.println("Start!");
+      game_state = GameState::SETUP;
+    } else {
+      Serial.println("Stop!");
+      game_state = GameState::OFF;
+    }
+
+    button_event = true;
+    last_interrupt_time = millis();
   }
-  button_event = true;
+
 }
 
 void SwitchStateTo(GameState next_game_state) {
@@ -74,7 +89,7 @@ void loop() {
   switch (game_state) {
     case GameState::OFF: {
       status_led.SetColor(led::Color::RED);
-      delay(1000);
+      delay(500);
       break;
       // TODO
     }
@@ -85,7 +100,7 @@ void loop() {
       SwitchStateTo(GameState::EVALUATE_QUIZ);
       break;
     case GameState::EVALUATE_QUIZ: {
-      delay(2000); // TODO remove?
+      delay(500); // TODO remove?
       auto middle_frequency = middle_poti.GetFrequency();
       auto high_frequency = high_poti.GetFrequency();
 
