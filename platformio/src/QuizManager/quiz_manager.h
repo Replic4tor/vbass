@@ -2,9 +2,12 @@
 
 #include <cstdint>
 #include <musical_notes.h>
+#include <vector>
 
 class QuizManager {
 public:
+ QuizManager();
+
   int GetNrOfCorrectTones(uint32_t middle_frequency, uint32_t high_frequency);
   bool IsEasterEggTriggered(uint32_t middle_frequency, uint32_t high_frequency);
 
@@ -12,6 +15,9 @@ public:
   void GenerateNewRootTone();
 
  private:
-  music::NOTE root_tone_ = music::C4;  // TODO randomize initial tone
-  // TODO map<Tone, frequency>
+  music::NOTE root_tone_;
+  double FREQUENCY_TOLERANCE_ = 5;
+
+  bool IsMiddleNoteCorrect(uint32_t middle_frequency);
+  bool IsHighNoteCorrect(uint32_t high_frequency);
 };
