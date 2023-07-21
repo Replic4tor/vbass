@@ -32,7 +32,7 @@ main:
 #include <Arduino.h>
 #include <DacESP32.h>
 
-DacESP32 dac(GPIO_NUM_25);
+DacESP32 dac_(GPIO_NUM_25);
 
 const int PLAY_NOTE_G4 = 392;   //G - Octave 4
 const int PLAY_NOTE_C5 = 523;   //C - Octave 5
@@ -46,30 +46,30 @@ const int PLAY_NOTE_C6 = 1046;  //C - Octave 6
 
 const int EIGTH_NOTE_LENGTH = 200;
 
-void play_note(DacESP32& dac, int freq, int length_ms) {
-  dac.enable();
-  dac.outputCW(freq);
+void play_note(DacESP32& dac_, int freq, int length_ms) {
+  dac_.enable();
+  dac_.outputCW(freq);
   delay(length_ms);
-  dac.disable();
+  dac_.disable();
   delay(10);
 }
 
 void setup() {
-  dac.disable();
+  dac_.disable();
   delay(1000);
 }
 
 void loop() {
-  play_note(dac, PLAY_NOTE_E5, EIGTH_NOTE_LENGTH);
-  play_note(dac, PLAY_NOTE_E5, EIGTH_NOTE_LENGTH);
+  play_note(dac_, PLAY_NOTE_E5, EIGTH_NOTE_LENGTH);
+  play_note(dac_, PLAY_NOTE_E5, EIGTH_NOTE_LENGTH);
   delay(EIGTH_NOTE_LENGTH);
-  play_note(dac, PLAY_NOTE_E5, EIGTH_NOTE_LENGTH);
+  play_note(dac_, PLAY_NOTE_E5, EIGTH_NOTE_LENGTH);
   delay(EIGTH_NOTE_LENGTH);
-  play_note(dac, PLAY_NOTE_C5, EIGTH_NOTE_LENGTH);
-  play_note(dac, PLAY_NOTE_E5, EIGTH_NOTE_LENGTH * 2);
-  play_note(dac, PLAY_NOTE_G5, EIGTH_NOTE_LENGTH * 2);
+  play_note(dac_, PLAY_NOTE_C5, EIGTH_NOTE_LENGTH);
+  play_note(dac_, PLAY_NOTE_E5, EIGTH_NOTE_LENGTH * 2);
+  play_note(dac_, PLAY_NOTE_G5, EIGTH_NOTE_LENGTH * 2);
   delay(EIGTH_NOTE_LENGTH * 2);
-  play_note(dac, PLAY_NOTE_C5, EIGTH_NOTE_LENGTH * 2);
+  play_note(dac_, PLAY_NOTE_C5, EIGTH_NOTE_LENGTH * 2);
   delay(EIGTH_NOTE_LENGTH * 2);
 }
 ```

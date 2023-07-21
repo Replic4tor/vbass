@@ -85,3 +85,41 @@ Example game loop, based on state machine:
   * Play sad melody
 * EasterEgg
   * Play easter egg melody
+
+## Implementation Hints
+
+* Octave only influences playback over speaker, not the quiz logic
+
+## ESP32 Breadboard Setup
+
+Rotary Encoder:
+* CLK -> GPIO xx
+* DT -> GPIO xx
+* SW -> GPIO 34
+
+Button:
+* Press -> GPIO 00
+
+Poti 1 (middle):
+* AIN1 -> GPIO 32
+
+Poti 2 (high):
+* AIN2 -> GPIO 33
+
+Poti 3:
+* AIN3 -> GPIO XX
+
+Poti 4:
+* AIN4 -> GPIO XX
+
+Speaker:
+* AOUT -> GPIO 25
+
+LED:
+* AOUT R -> GPIO XX
+* AOUT G -> GPIO XX
+* AOUT B -> GPIO XX
+
+4x D/IN GPIO
+4x A/IN GPIO
+4x A/OUT GPIO

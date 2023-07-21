@@ -1,6 +1,7 @@
 #pragma once
 
 #include <cstdint>
+#include <musical_notes.h>
 
 class QuizManager {
 public:
@@ -11,6 +12,6 @@ public:
   void GenerateNewRootTone();
 
  private:
-  // TODO Tone root_tone_;
+  music::NOTE root_tone_ = music::C4;  // TODO randomize initial tone
   // TODO map<Tone, frequency>
 };
