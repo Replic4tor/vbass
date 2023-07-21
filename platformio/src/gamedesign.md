@@ -98,7 +98,7 @@ Rotary Encoder:
 * SW -> GPIO 34
 
 Button:
-* Press -> GPIO 00
+* Press -> GPIO 35
 
 Poti 1 (middle):
 * AIN1 -> GPIO 32
