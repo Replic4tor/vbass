@@ -93,8 +93,8 @@ Example game loop, based on state machine:
 ## ESP32 Breadboard Setup
 
 Rotary Encoder:
-* CLK -> GPIO xx
-* DT -> GPIO xx
+* CLK -> GPIO 26
+* DT -> GPIO 27
 * SW -> GPIO 34
 
 Button:
@@ -115,10 +115,13 @@ Poti 4:
 Speaker:
 * AOUT -> GPIO 25
 
-LED:
+RGB-LED:
 * AOUT R -> GPIO XX
 * AOUT G -> GPIO XX
 * AOUT B -> GPIO XX
+
+Temporary LED:
+* AOUT -> GPIO 14
 
 4x D/IN GPIO
 4x A/IN GPIO

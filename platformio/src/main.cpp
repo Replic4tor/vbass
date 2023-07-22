@@ -37,9 +37,9 @@ String ToString(GameState game_state) {
 }
 
 // Rotary Encoder
-#define ROTARY_ENCODER_A_PIN 23
-#define ROTARY_ENCODER_B_PIN 22
-#define ROTARY_ENCODER_BUTTON_PIN 21
+#define ROTARY_ENCODER_A_PIN 26
+#define ROTARY_ENCODER_B_PIN 27
+#define ROTARY_ENCODER_BUTTON_PIN -1
 #define ROTARY_ENCODER_VCC_PIN -1
 #define ROTARY_ENCODER_STEPS 4
 
@@ -49,7 +49,7 @@ bool button_event = false;
 QuizManager quiz_manager{};
 FrequencyReader middle_poti{GPIO_NUM_32};
 FrequencyReader high_poti{GPIO_NUM_33};
-led::LedManager status_led{GPIO_NUM_0};// TODO GPIO num
+led::LedManager status_led{GPIO_NUM_14};
 SpeakerManager speaker{GPIO_NUM_25};
 PlaybackSpeedReader speed_poti{GPIO_NUM_0};// TODO GPIO num
 AiEsp32RotaryEncoder rotary_encoder = AiEsp32RotaryEncoder(ROTARY_ENCODER_A_PIN, ROTARY_ENCODER_B_PIN, ROTARY_ENCODER_BUTTON_PIN, ROTARY_ENCODER_VCC_PIN, ROTARY_ENCODER_STEPS);
@@ -147,10 +147,8 @@ void loop() {
       status_led.SetColor(led::Color::RED);
       delay(500);
       break;
-      // TODO
     }
     case GameState::SETUP:
-      // TODO
       status_led.SetColor(led::Color::RED);
       quiz_manager.GenerateNewRootTone();
       SwitchStateTo(GameState::EVALUATE_QUIZ);
