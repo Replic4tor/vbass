@@ -56,8 +56,6 @@ AiEsp32RotaryEncoder rotary_encoder = AiEsp32RotaryEncoder(ROTARY_ENCODER_A_PIN,
 float octave_offset = 2;                   // TODO Make adjustable with rotary switch, e.g. 0.5, 2
 
 void IRAM_ATTR IsrOnSkipButton() {
-  Serial.println("IsrOnSkipButton");
-
   static unsigned long last_interrupt_time = 0;
 
   if (millis() - last_interrupt_time > 200) {
@@ -69,8 +67,6 @@ void IRAM_ATTR IsrOnSkipButton() {
 }
 
 void IRAM_ATTR IsrOnPlayButton() {
-  Serial.println("IsrOnPlayButton");
-
   static unsigned long last_interrupt_time = 0;
 
   if (millis() - last_interrupt_time > 200) {
