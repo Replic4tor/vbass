@@ -1,4 +1,6 @@
+#include <AiEsp32RotaryEncoder.h>
 #include <Arduino.h>
+#include <map>
 
 #include "FrequencyReader/frequency_reader.h"
 #include "LedManager/led_manager.h"
@@ -34,6 +36,13 @@ String ToString(GameState game_state) {
 }
 }
 
+// Rotary Encoder
+#define ROTARY_ENCODER_A_PIN 23
+#define ROTARY_ENCODER_B_PIN 22
+#define ROTARY_ENCODER_BUTTON_PIN 21
+#define ROTARY_ENCODER_VCC_PIN -1
+#define ROTARY_ENCODER_STEPS 4
+
 // THE GLOBAL STUFF
 GameState game_state = GameState::OFF;
 bool button_event = false;
@@ -43,6 +52,7 @@ FrequencyReader high_poti{GPIO_NUM_33};
 led::LedManager status_led{GPIO_NUM_0};// TODO GPIO num
 SpeakerManager speaker{GPIO_NUM_25};
 PlaybackSpeedReader speed_poti{GPIO_NUM_0};// TODO GPIO num
+AiEsp32RotaryEncoder rotary_encoder = AiEsp32RotaryEncoder(ROTARY_ENCODER_A_PIN, ROTARY_ENCODER_B_PIN, ROTARY_ENCODER_BUTTON_PIN, ROTARY_ENCODER_VCC_PIN, ROTARY_ENCODER_STEPS);
 float octave_offset = 2;                   // TODO Make adjustable with rotary switch, e.g. 0.5, 2
 
 void IRAM_ATTR IsrOnSkipButton() {
@@ -78,6 +88,34 @@ void IRAM_ATTR IsrOnPlayButton() {
   }
 }
 
+// Encoder value can range between -2 and 2 (inclusive)
+std::map<int, float> ocatve_offset_mapping {
+    {-2, 0.25},
+    {-1, 0.5},
+    {0, 1},
+    {1, 2},
+    {2, 4}
+};
+
+void RotaryEncoderLoop()
+{
+  if (rotary_encoder.encoderChanged())
+  {
+    auto encoder_value = rotary_encoder.readEncoder();
+    Serial.println((String)"Encoder value: " + encoder_value);
+    if (ocatve_offset_mapping.find(encoder_value) != ocatve_offset_mapping.end()) {
+      octave_offset = ocatve_offset_mapping.at(encoder_value);
+    } else {
+      octave_offset = 2;
+    }
+  }
+}
+
+void IRAM_ATTR ReadEncoderISR()
+{
+  rotary_encoder.readEncoder_ISR();
+}
+
 void SwitchStateTo(GameState next_game_state) {
   if (button_event) {
     // Do not switch state because play button decision has priority
@@ -87,17 +125,23 @@ void SwitchStateTo(GameState next_game_state) {
   }
 }
 
-// TODO ISR for rotary switch turn events
-
 void setup() {
   Serial.begin(115200);
   // TODO Hardware setup, e.g. GPIO direction
   attachInterrupt(GPIO_NUM_35, IsrOnSkipButton, RISING);
   attachInterrupt(GPIO_NUM_34, IsrOnPlayButton, RISING);
   game_state = GameState::OFF;
+
+  // Rotary Encoder
+  rotary_encoder.begin();
+  rotary_encoder.setup(ReadEncoderISR);
+  rotary_encoder.setBoundaries(-2, 2, false); //minValue, maxValue, circleValues true|false (when max go to min and vice versa)
+  rotary_encoder.disableAcceleration();
 }
 
 void loop() {
+  RotaryEncoderLoop();
+
   switch (game_state) {
     case GameState::OFF: {
       status_led.SetColor(led::Color::RED);
