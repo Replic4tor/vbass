@@ -162,7 +162,6 @@ void loop() {
       auto correct_tones = quiz_manager.GetNrOfCorrectTones(middle_frequency, high_frequency);
       if (1 == correct_tones) {
         status_led.SetColor(led::Color::YELLOW);
-        break;
       } else if (2 == correct_tones) {
         SwitchStateTo(GameState::VICTORY);
         break;
@@ -207,5 +206,5 @@ void loop() {
       break;
   }
 
-  Serial.println(ToString(game_state));
+  Serial.println((String)"state: " + ToString(game_state));
 }

@@ -9,7 +9,7 @@ QuizManager::QuizManager() {
 }
 
 int QuizManager::GetNrOfCorrectTones(uint32_t middle_frequency, uint32_t high_frequency) {
-  Serial.println((String) "Root: " + root_tone_ + " Middle: " + middle_frequency + " High: " + high_frequency);
+  Serial.println((String) "QUIZ: Root: " + root_tone_ + " Middle: " + middle_frequency + " High: " + high_frequency);
   auto correct_tones = 0;
 
   if (IsMiddleNoteCorrect(middle_frequency)) {
@@ -44,11 +44,13 @@ void QuizManager::GenerateNewRootTone() {
 }
 
 bool QuizManager::IsMiddleNoteCorrect(uint32_t middle_frequency) {
-  auto expected_frequency = root_tone_ * (5 / 4);
+  auto expected_frequency = root_tone_ * ((double) 5 / 4);
+  Serial.println((String)"QUIZ: Middle actual/expected: " + middle_frequency + "/" + expected_frequency);
   return (abs((int) (expected_frequency - middle_frequency)) < FREQUENCY_TOLERANCE_);
 }
 
 bool QuizManager::IsHighNoteCorrect(uint32_t high_frequency) {
-  auto expected_frequency = root_tone_ * (3 / 2);
+  auto expected_frequency = root_tone_ * ((double) 3 / 2);
+  Serial.println((String)"QUIZ: High actual/expected: " + high_frequency + "/" + expected_frequency);
   return (abs((int) (expected_frequency - high_frequency)) < FREQUENCY_TOLERANCE_);
 }
