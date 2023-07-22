@@ -38,6 +38,7 @@ void QuizManager::GenerateNewRootTone() {
       music::NOTE::C4, music::NOTE::C4S, music::NOTE::D4, music::NOTE::D4S, music::NOTE::E4, music::NOTE::F4,
       music::NOTE::F4S, music::NOTE::G4, music::NOTE::G4S, music::NOTE::A4, music::NOTE::A4S, music::NOTE::B4,
   };
+  // TODO Prevent same root tone from being selected again
   auto random_index = std::rand() % POSSIBLE_ROOT_NOTES.size();
   root_tone_ = POSSIBLE_ROOT_NOTES.at(random_index);
   Serial.println((String) "New root tone frequency: " + root_tone_);

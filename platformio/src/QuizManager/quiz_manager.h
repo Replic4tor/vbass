@@ -16,7 +16,7 @@ public:
 
  private:
   music::NOTE root_tone_;
-  double FREQUENCY_TOLERANCE_ = 25;
+  double FREQUENCY_TOLERANCE_ = 30;
 
   bool IsMiddleNoteCorrect(uint32_t middle_frequency);
   bool IsHighNoteCorrect(uint32_t high_frequency);

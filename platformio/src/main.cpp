@@ -187,6 +187,7 @@ void loop() {
       speaker.Play(high_poti.GetFrequency() * octave_offset, speed_poti.GetNoteLength());
       delay(500);
       PlayVictorySong(speaker);
+      delay(3000);
       SwitchStateTo(GameState::SETUP);
       break;
     case GameState::SKIP:
