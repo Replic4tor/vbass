@@ -39,7 +39,7 @@ String ToString(GameState game_state) {
 // Rotary Encoder
 #define ROTARY_ENCODER_A_PIN 26
 #define ROTARY_ENCODER_B_PIN 27
-#define ROTARY_ENCODER_BUTTON_PIN -1
+#define ROTARY_ENCODER_BUTTON_PIN -1  // not in use
 #define ROTARY_ENCODER_VCC_PIN -1
 #define ROTARY_ENCODER_STEPS 4
 
@@ -53,7 +53,7 @@ led::LedManager status_led{GPIO_NUM_14};
 SpeakerManager speaker{GPIO_NUM_25};
 PlaybackSpeedReader speed_poti{GPIO_NUM_0};// TODO GPIO num
 AiEsp32RotaryEncoder rotary_encoder = AiEsp32RotaryEncoder(ROTARY_ENCODER_A_PIN, ROTARY_ENCODER_B_PIN, ROTARY_ENCODER_BUTTON_PIN, ROTARY_ENCODER_VCC_PIN, ROTARY_ENCODER_STEPS);
-float octave_offset = 2;                   // TODO Make adjustable with rotary switch, e.g. 0.5, 2
+float octave_offset = 2;
 
 void IRAM_ATTR IsrOnSkipButton() {
   static unsigned long last_interrupt_time = 0;
